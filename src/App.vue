@@ -1,15 +1,17 @@
 <template>
-  <div class="wrapper" id="app">
     <CardForm
-      :form-data="formData"
+      card-form-class="bordered"
+      primary-color="#4ae00f"
+      typography-color="#000"
+      submit-button-text="Pay"
+      :on-submit="clickHandler"
       @input-card-number="updateCardNumber"
       @input-card-name="updateCardName"
       @input-card-month="updateCardMonth"
       @input-card-year="updateCardYear"
       @input-card-cvv="updateCardCvv"
+      card-background="blue"
     />
-    <!-- backgroundImage="https://images.unsplash.com/photo-1572336183013-960c3e1a0b54?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80" -->
-  </div>
 </template>
 
 <script>
@@ -19,35 +21,30 @@ export default {
   components: {
     CardForm
   },
-  data () {
-    return {
-      formData: {
-        cardName: '',
-        cardNumber: '',
-        cardMonth: '',
-        cardYear: '',
-        cardCvv: ''
-      }
-    }
-  },
   methods: {
     updateCardNumber (val) {
+      console.log('Card Number', val)
     },
     updateCardName (val) {
+      console.log('Card Name', val)
     },
     updateCardMonth (val) {
+      console.log('Card Month', val)
     },
     updateCardYear (val) {
+      console.log('Card Year', val)
     },
     updateCardCvv (val) {
+      console.log('Card Cvv', val)
+    },
+    clickHandler () {
+      console.log('Click from parent')
     }
-  },
-  mounted () {
-    this.$i18n.locale = navigator.language
   }
 }
 </script>
-
 <style lang="scss">
-@import '../src/assets/style.scss';
+  .bordered {
+    border: 1px solid black;
+  }
 </style>

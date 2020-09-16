@@ -438,7 +438,6 @@ export default {
         margin-right: 0;
       }
     }
-
   }
 
   button[disabled] {
@@ -460,7 +459,6 @@ export default {
     @media screen and (max-width: 480px) {
       margin-top: 10px;
     }
-
 
     &:not([disabled]) {
       background: var(--primary-color);

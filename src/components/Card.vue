@@ -15,13 +15,13 @@
       <div class="card-item__wrapper">
         <div class="card-item__top">
           <img
-            :src="require('@/assets/images/chip.png')"
+            :src="chipImgSrc"
             class="card-item__chip"
           />
           <div class="card-item__type">
             <transition name="slide-fade-up">
               <img
-                :src="require('@/assets/images/' + cardType + '.png')"
+                :src="cardTypeImgSrc"
                 v-if="cardType"
                 :key="cardType"
                 alt
@@ -169,6 +169,7 @@ export default {
   },
   mounted () {
     this.changePlaceholder()
+    console.log(require('@/assets/images/chip.png'))
 
     let self = this
     let fields = document.querySelectorAll('[data-card-field]')
@@ -226,6 +227,13 @@ export default {
       if (number.match(re) != null) return 'jcb'
 
       return '' // default type
+    },
+    chipImgSrc () {
+      return require('@/assets/images/chip.png')
+    },
+    cardTypeImgSrc () {
+      if (this.cardType === '') return
+      return require('@/assets/images/' + this.cardType + '.png')
     }
   },
   methods: {

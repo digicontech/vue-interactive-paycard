@@ -1,14 +1,13 @@
 {
   "name": "vue-interactive-paycard-component",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "build-bundle": "vue-cli-service build --target lib --name VueInteractiveCard src/components/CardForm.vue"
+    "build-bundle": "vue-cli-service build --mode production --target lib --name VueInteractiveCard src/components/CardForm.vue"
   },
   "dependencies": {
     "core-js": "^3.3.2",
-    "express": "^4.17.1",
     "vue": "^2.6.10"
   },
   "devDependencies": {

@@ -15,7 +15,7 @@
       <div class="card-item__wrapper">
         <div class="card-item__top">
           <img
-            :src="chipImgSrc"
+            :src="CHIP_IMG"
             class="card-item__chip"
           />
           <div class="card-item__type">
@@ -97,7 +97,7 @@
         </div>
         <div class="card-item__type">
           <img
-            :src="require('@/assets/images/' + cardType + '.png')"
+            :src="cardTypeImgSrc"
             v-if="cardType"
             class="card-item__typeImg"
           />
@@ -108,6 +108,8 @@
 </template>
 
 <script>
+import { CHIP_IMG, CARD_TYPES } from '@/utils/cardTypes'
+
 export default {
   name: 'Card',
   props: {
@@ -145,6 +147,8 @@ export default {
   },
   data () {
     return {
+      CHIP_IMG,
+      CARD_TYPES,
       focusElementStyle: null,
       currentFocus: null,
       isFocused: false,
@@ -169,7 +173,6 @@ export default {
   },
   mounted () {
     this.changePlaceholder()
-    console.log(require('@/assets/images/chip.png'))
 
     let self = this
     let fields = document.querySelectorAll('[data-card-field]')
@@ -228,12 +231,9 @@ export default {
 
       return '' // default type
     },
-    chipImgSrc () {
-      return require('@/assets/images/chip.png')
-    },
     cardTypeImgSrc () {
       if (this.cardType === '') return
-      return require('@/assets/images/' + this.cardType + '.png')
+      return this.CARD_TYPES[this.cardType]
     }
   },
   methods: {

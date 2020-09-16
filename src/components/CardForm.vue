@@ -131,10 +131,13 @@
       </div>
 
       <button class="card-form__button"
-        :disabled="!cardFormValid"
+        :disabled="!cardFormValid || loading"
         @click="onSubmit"
       >
-        {{submitButtonText}}
+        <slot v-if="loading" name="loader">
+            <span>Loading ...</span>
+        </slot>
+        <span v-else>{{submitButtonText}}</span>
       </button>
     </div>
   </div>
@@ -190,6 +193,10 @@ export default {
     cardBackground: {
       type: String,
       default: () => `blue`
+    },
+    loading: {
+      type: Boolean,
+      default: false
     }
   },
   components: {
@@ -349,7 +356,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .card-form {
   max-width: 570px;
   margin: auto;
@@ -434,6 +441,10 @@ export default {
 
   }
 
+  button[disabled] {
+    background-color: #dddddd;
+  }
+
   &__button {
     width: 100%;
     height: 55px;
@@ -449,6 +460,7 @@ export default {
     @media screen and (max-width: 480px) {
       margin-top: 10px;
     }
+
 
     &:not([disabled]) {
       background: var(--primary-color);

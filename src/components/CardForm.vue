@@ -319,7 +319,7 @@ export default {
       this.$emit('input-card-cvv', this.cardCvv)
     },
     changePostcode (e) {
-      this.cardPostcode = e.target.value.toUpperCase().replace(/\s/g, '');
+      this.cardPostcode = e.target.value.toUpperCase().replace(/\s/g, '')
       this.$emit('input-card-postcode', this.cardPostcode)
     },
     blurCardNumber () {

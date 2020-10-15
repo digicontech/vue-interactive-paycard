@@ -105,7 +105,7 @@
               <input
                 type="text"
                 class="card-input__input"
-                maxlength="7"
+                maxlength="10"
                 :value="cardPostcode"
                 @input="changePostcode"
                 data-card-field
@@ -319,7 +319,7 @@ export default {
       this.$emit('input-card-cvv', this.cardCvv)
     },
     changePostcode (e) {
-      this.cardPostcode = e.target.value.toUpperCase()
+      this.cardPostcode = e.target.value.toUpperCase().replace(/\s/g, '');
       this.$emit('input-card-postcode', this.cardPostcode)
     },
     blurCardNumber () {

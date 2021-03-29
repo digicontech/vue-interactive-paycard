@@ -1,146 +1,157 @@
 <template>
-  <div class="card-form" :style=cssProps>
-    <div class="card-list">
-      <Card
-        :fields="fields"
-        :cardName="cardName"
-        :cardNumber="cardNumber"
-        :cardNumberNotMask="cardNumberNotMask"
-        :cardMonth="cardMonth"
-        :cardYear="cardYear"
-        :cardCvv="cardCvv"
-        :cardPostcode="cardPostcode"
-        :isCardNumberMasked="isCardNumberMasked"
-        :cardBackground="cardBackground"
-      />
-    </div>
-    <div :class="['card-form__inner', cardFormClass]">
-      <div class="card-input">
-        <label for="cardNumber"
-          class="card-input__label"
-          :class="{
-            '-error': !isCardNumberValid
-          }"
-        >
-          Card Number
-        </label>
-        <input
-          type="tel"
-          :id="fields.cardNumber"
-          @input="changeNumber"
-          @focus="focusCardNumber"
-          @blur="blurCardNumber"
-          class="card-input__input"
-          :class="{
-            'card-input__error': !isCardNumberValid
-          }"
-          :value="cardNumber"
-          :maxlength="cardNumberMaxLength"
-          data-card-field
-          autocomplete="off"
-        />
-        <button
-          class="card-input__eye"
-          :class="{ '-active' : !isCardNumberMasked }"
-          title="Show/Hide card number"
-          tabindex="-1"
-          :disabled="cardNumber === ''"
-          @click="toggleMask"
-        ></button>
-      </div>
-      <div class="card-input">
-        <label for="cardName" class="card-input__label">Card Name</label>
-        <input
-          type="text"
-          :id="fields.cardName"
-          v-letter-only
-          @input="changeName"
-          class="card-input__input"
-          :value="cardName"
-          data-card-field
-          autocomplete="off"
+  <form>
+    <div class="card-form" :style=cssProps>
+      <div class="card-list">
+        <Card
+          :fields="fields"
+          :cardName="cardName"
+          :cardNumber="cardNumber"
+          :cardNumberNotMask="cardNumberNotMask"
+          :cardMonth="cardMonth"
+          :cardYear="cardYear"
+          :cardCvv="cardCvv"
+          :cardPostcode="cardPostcode"
+          :isCardNumberMasked="isCardNumberMasked"
+          :cardBackground="cardBackground"
         />
       </div>
-      <div class="card-form__row">
-        <div class="card-form__col">
-          <div class="card-form__group">
-            <label for="cardMonth" class="card-input__label">Expiration Date</label>
-            <select
-              class="card-input__input -select"
-              :id="fields.cardMonth"
-              v-model="cardMonth"
-              @change="changeMonth"
-              data-card-field
-            >
-              <option value disabled selected>Month</option>
-              <option
-                v-bind:value="n"
-                v-for="n in 12"
-                v-bind:disabled="n < minCardMonth"
-                v-bind:key="n"
-              >{{generateMonthValue(n)}}</option>
-            </select>
-            <select
-              class="card-input__input -select"
-              :id="fields.cardYear"
-              v-model="cardYear"
-              @change="changeYear"
-              data-card-field
-            >
-              <option value disabled selected>Year</option>
-              <option
-                v-bind:value="$index + minCardYear"
-                v-for="(n, $index) in 12"
-                v-bind:key="n"
-              >{{$index + minCardYear}}</option>
-            </select>
-          </div>
+      <div :class="['card-form__inner', cardFormClass]">
+        <div class="card-input">
+          <label for="cardNumber"
+            class="card-input__label"
+            :class="{
+              '-error': !isCardNumberValid
+            }"
+          >
+            Card Number
+          </label>
+          <input
+            type="text"
+            id="cardNumber"
+            name="ccnumber"
+            @input="changeNumber"
+            @focus="focusCardNumber"
+            @blur="blurCardNumber"
+            class="card-input__input"
+            :class="{
+              'card-input__error': !isCardNumberValid
+            }"
+            :value="cardNumber"
+            :maxlength="cardNumberMaxLength"
+            data-card-field
+            autocomplete="cc-number"
+          />
+          <button
+            class="card-input__eye"
+            :class="{ '-active' : !isCardNumberMasked }"
+            title="Show/Hide card number"
+            tabindex="-1"
+            :disabled="cardNumber === ''"
+            @click="toggleMask"
+          ></button>
         </div>
-      </div>
-      <div class="card-form__row">
-        <div class="card-form__col">
-          <div class="card-form__group">
-            <div class="card-form__item">
-              <label for="cardPostcode" class="card-input__label">Postcode</label>
-              <input
-                type="text"
-                class="card-input__input"
-                maxlength="10"
-                :value="cardPostcode"
-                @input="changePostcode"
+        <div class="card-input">
+          <label for="cardHolder" class="card-input__label">Name on Card</label>
+          <input
+            type="text"
+            id="cardHolder"
+            name="nameoncard"
+            v-letter-only
+            @input="changeName"
+            class="card-input__input"
+            :value="cardName"
+            data-card-field
+            autocomplete="cc-name"
+          />
+        </div>
+        <div class="card-form__row">
+          <div class="card-form__col">
+            <div class="card-form__group">
+              <label for="cardExpirationMonth" class="card-input__label">Expiration Date</label>
+              <select
+                class="card-input__input -select"
+                id="cardExpirationMonth"
+                name="cardMonth"
+                v-model="cardMonth"
+                @change="changeMonth"
                 data-card-field
-                autocomplete="off"
-              />
-            </div>
-            <div class="card-form__item">
-              <label for="cardCvv" class="card-input__label">CVV</label>
-              <input
-                type="tel"
-                class="card-input__input"
-                v-number-only
-                :id="fields.cardCvv"
-                maxlength="4"
-                :value="cardCvv"
-                @input="changeCvv"
+                autocomplete="cc-exp-month"
+              >
+                <option value disabled selected>Month</option>
+                <option
+                  v-bind:value="n"
+                  v-for="n in 12"
+                  v-bind:disabled="n < minCardMonth"
+                  v-bind:key="n"
+                >{{generateMonthValue(n)}}</option>
+              </select>
+              <select
+                class="card-input__input -select"
+                id="cardExpirationYear"
+                name="cardYear"
+                v-model="cardYear"
+                @change="changeYear"
                 data-card-field
-                autocomplete="off"
-              />
+                autocomplete="cc-exp-year"
+              >
+                <option value disabled selected>Year</option>
+                <option
+                  v-bind:value="$index + minCardYear"
+                  v-for="(n, $index) in 12"
+                  v-bind:key="n"
+                >{{$index + minCardYear}}</option>
+              </select>
             </div>
           </div>
         </div>
-      </div>
+        <div class="card-form__row">
+          <div class="card-form__col">
+            <div class="card-form__group">
+              <div class="card-form__item">
+                <label for="cardPostcode" class="card-input__label">Postcode</label>
+                <input
+                  type="text"
+                  id="cardPostcode"
+                  name="cardPostcode"
+                  class="card-input__input"
+                  maxlength="10"
+                  :value="cardPostcode"
+                  @input="changePostcode"
+                  data-card-field
+                  autocomplete="postal-code"
+                />
+              </div>
+              <div class="card-form__item">
+                <label for="cardCsc" class="card-input__label">CVV</label>
+                <input
+                  type="text"
+                  class="card-input__input"
+                  v-number-only
+                  id="cardCsc"
+                  name="cardCvv"
+                  maxlength="4"
+                  :value="cardCvv"
+                  @input="changeCvv"
+                  data-card-field
+                  autocomplete="cc-csc"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
 
-      <button class="card-form__button"
-        :disabled="!cardFormValid || loading"
-        @click="onSubmit"
-      >
-        <slot v-if="loading" name="loader">
-            <span>Loading ...</span>
-        </slot>
-        <span v-else>{{submitButtonText}}</span>
-      </button>
+        <button class="card-form__button"
+          :disabled="!cardFormValid || loading"
+          @click="onSubmit"
+        >
+          <slot v-if="loading" name="loader">
+              <span>Loading ...</span>
+          </slot>
+          <span v-else>{{submitButtonText}}</span>
+        </button>
+      </div>
     </div>
-  </div>
+  </form>
 </template>
 
 <script>
